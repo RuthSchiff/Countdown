@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ספירה לאחור לחתונה</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #ddb606;
+            text-align: center;
+            transition: background-image 0.5s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1 {
+            margin-top: 40px;
+            color: #ddb606;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel {
+            background-color: rgba(255, 230, 236, 0.9);
+            padding: 20px;
+            margin: 30px auto;
+            border-radius: 12px;
+            max-width: 350px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        button,
+        label {
+            margin: 10px 0;
+            font-size: 1em;
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        input[type="date"],
+        input[type="color"] {
+            background-color: #fff;
+            color: #ddb606;
+        }
+
+        button {
+            background-color: #edc40d;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #746b29;
+        }
+
+        #titleNames {
+            margin-top: 30px;
+            font-size: 4em;
+            color: #ffffff;
+            font-weight: bold;
+            font-family: Fb Bokertov;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #countdown {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #ddb606;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-family: Fb Bokertov;
+        }
+
+        .time-card {
+            color: inherit;
+            background: linear-gradient(#101010, );
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 2em;
+            min-width: 100px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .time-card:hover {
+            transform: scale(1.1);
+        }
+
+        #editBtn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            background-color: #fdfdfd;
+            color: rgb(97, 95, 95);
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 999;
+            font-size: 1.2em;
+            font-family: Fb Bokertov;
+        }
+
+        #editBtn i {
+            margin-left: 5px;
+        }
+
+        .complete {
+            background-color: #ddb606;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            margin-top: 20px;
+            color: white;
+            display: inline-block;
+            animation: pop 0.5s ease-in-out;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .heart {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: url('https://cdn-icons-png.flaticon.com/512/833/833472.png') no-repeat center/contain;
+            animation: fall 3s linear infinite;
+            z-index: 999;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button id="editBtn"><i>✒️ עריכה</i></button>
+
+    <div id="panel" class="panel">
+        <h1>ספירה לאחור לחתונה 💍</h1>
+        <input type="text" id="groomName" placeholder="שם החתן"><br>
+        <input type="text" id="brideName" placeholder="שם הכלה"><br>
+        <input type="date" id="dateInput"><br>
+        <label>צבע טקסט:
+            <input type="color" id="textColor">
+        </label><br>
+        <label>בחר תמונת רקע:
+            <input type="file" id="bgInput" accept="image/*">
+        </label><br>
+        <button onclick="startCountdown()">התחל ספירה</button>
+        
+      
+    </div>
+
+    <div id="titleNames"></div>
+    <div id="countdown"></div>
+
+    <audio id="finishSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+    <audio id="backgroundMusic"
+        src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5cf7991c3b.mp3?filename=wedding-romantic-piano-10792.mp3"
+        autoplay loop></audio>
+
+    <script>
+        const panel = document.getElementById("panel");
+        const countdownEl = document.getElementById("countdown");
+        const titleNames = document.getElementById("titleNames");
+        const editBtn = document.getElementById("editBtn");
+        const finishSound = document.getElementById("finishSound");
+        const textColorInput = document.getElementById("textColor");
+        const bgInput = document.getElementById("bgInput");
+        let countdownInterval;
+
+        const defaultBg = "C:/Users/רותי שיף/Downloads/0D7A4125-1.jpg";
+
+        let db;
+        const request = indexedDB.open("weddingDB", 1);
+        request.onerror = () => console.log("שגיאה ב-IndexedDB");
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            loadBgImage();
+        };
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
+            db.createObjectStore("bg", { keyPath: "id" });
+        };
+
+        function saveBgImage(dataUrl) {
+            const tx = db.transaction("bg", "readwrite");
+            const store = tx.objectStore("bg");
+            store.put({ id: "background", image: dataUrl });
+        }
+
+        function loadBgImage() {
+            const tx = db.transaction("bg", "readonly");
+            const store = tx.objectStore("bg");
+            const getReq = store.get("background");
+            getReq.onsuccess = () => {
+                if (getReq.result && getReq.result.image) {
+                    document.body.style.backgroundImage = `url('${getReq.result.image}')`;
+                } else {
+                    document.body.style.backgroundImage = `url('${defaultBg}')`;
+                }
+            };
+        }
+
+        window.onload = () => {
+            const savedDate = localStorage.getItem("weddingDate");
+            const savedColor = localStorage.getItem("textColor");
+            const groom = localStorage.getItem("groomName");
+            const bride = localStorage.getItem("brideName");
+
+            if (savedDate) {
+                document.getElementById("dateInput").value = savedDate;
+                startCountdown(savedDate);
+            }
+
+            if (savedColor) {
+                document.body.style.color = savedColor;
+                countdownEl.style.color = savedColor;
+                textColorInput.value = savedColor;
+            }
+
+            if (groom) document.getElementById("groomName").value = groom;
+            if (bride) document.getElementById("brideName").value = bride;
+
+            if (groom && bride) {
+                titleNames.innerText = `ספירה לאחור לחתונה של ${groom} & ${bride}`;
+            }
+        };
+
+        function startCountdown(passedDate) {
+            const inputDate = passedDate || document.getElementById("dateInput").value;
+            const groom = document.getElementById("groomName").value.trim();
+            const bride = document.getElementById("brideName").value.trim();
+
+            if (!inputDate || !groom || !bride) return alert("יש למלא תאריך ושמות!");
+
+            localStorage.setItem("weddingDate", inputDate);
+            localStorage.setItem("groomName", groom);
+            localStorage.setItem("brideName", bride);
+
+            titleNames.innerText = `ספירה לאחור לחתונה של ${groom} & ${bride}`;
+
+            const targetDate = new Date(inputDate + "T00:00:00");
+
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                const now = new Date();
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownEl.innerHTML = "<div class='complete'>מזל טוב! יום החתונה הגיע </div>";
+                    finishSound.play();
+                    createHearts();
+                    return;
+                }
+
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const m = Math.floor((diff / (1000 * 60)) % 60);
+                const s = Math.floor((diff / 1000) % 60);
+
+                countdownEl.innerHTML = `
+          <div class="time-card">${d} ימים</div>
+          <div class="time-card">${h} שעות</div>
+          <div class="time-card">${m} דקות</div>
+          <div class="time-card">${s} שניות</div>
+        `;
+            }, 1000);
+
+            panel.style.display = "none";
+        }
+
+        editBtn.addEventListener("click", () => {
+            panel.style.display = "block";
+        });
+
+        textColorInput.addEventListener("change", (e) => {
+            const color = e.target.value;
+            document.body.style.color = color;
+            countdownEl.style.color = color;
+            titleNames.style.color = color;
+            document.querySelectorAll(".time-card").forEach((card) => {
+                card.style.color = color;
+            });
+            editBtn.style.color = color;
+            localStorage.setItem("textColor", color);
+        });
+
+        bgInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const dataUrl = event.target.result;
+                document.body.style.backgroundImage = `url('${dataUrl}')`;
+                saveBgImage(dataUrl);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDelay = Math.random() * 2 + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }
+    </script>
+</body>
+
+</html>

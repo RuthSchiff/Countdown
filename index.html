@@ -22,6 +22,20 @@
             justify-content: space-between;
         }
 
+        #titleStarted {
+            font-size: 2.5em;
+            /* גודל הטקסט */
+            /* color: #ddb606; צבע הטקסט */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            /* צל לטקסט */
+            margin-bottom: -22%;
+            /* ריווח מתחת לכותרת */
+            font-weight: bold;
+            /* טקסט מודגש */
+            font-family: 'Fb Bokertov';
+            /* גופן */
+        }
+
         h1 {
             margin-top: 40px;
             color: #ddb606;
@@ -49,10 +63,12 @@
             border-radius: 6px;
             border: none;
         }
-        #bgInput{
+
+        #bgInput {
             background-color: #fff;
             color: #ddb606;
         }
+
         input[type="date"],
         input[type="color"] {
             background-color: #fff;
@@ -92,7 +108,7 @@
         .time-card {
             color: inherit;
             border: solid 0.0005px #e5e5e5;
-            background: linear-gradient( #bab2b2,#fffafa,);
+            background: linear-gradient(#bab2b2, #fffafa, );
             /* color: white; */
             padding: 20px;
             border-radius: 15px;
@@ -126,6 +142,8 @@
         #editBtn i {
             margin-left: 5px;
         }
+
+
 
         .complete {
             background-color: #ddb606;
@@ -187,8 +205,11 @@
 
     </div>
 
+
     <div id="titleNames"></div>
+    <h2 id="titleStarted">הספירה לאחור החלה!!!!!!!</h2>
     <div id="countdown"></div>
+
 
     <script>
         const panel = document.getElementById("panel");
@@ -259,7 +280,7 @@
             if (savedBride) document.getElementById("brideName").value = savedBride;
 
             if (savedGroom && savedBride) {
-                titleNames.innerText = `ספירה לאחור לחתונה של ${savedGroom} & ${savedBride}`;
+                titleNames.innerText = `${savedGroom} & ${savedBride}`;
             }
         };
 
@@ -271,7 +292,8 @@
             if (Savedgroom) localStorage.setItem("groomName", Savedgroom);
             if (Savedbride) localStorage.setItem("brideName", Savedbride);
 
-            titleNames.innerText = `ספירה לאחור לחתונה של ${localStorage.getItem("groomName")} & ${localStorage.getItem("brideName")}`;
+
+            titleNames.innerText = `${localStorage.getItem("groomName")} & ${localStorage.getItem("brideName")}`;
 
             const targetDate = new Date(inputDate + "T00:00:00");
 
@@ -293,7 +315,10 @@
                 const m = Math.floor((diff / (1000 * 60)) % 60);
                 const s = Math.floor((diff / 1000) % 60);
 
-                countdownEl.innerHTML = `
+
+                countdownEl.innerHTML =
+                    //   <h1>הספירה לאחור החלה</h1>
+                    ` 
             <div class="time-card">${d} ימים</div>
             <div class="time-card">${h} שעות</div>
             <div class="time-card">${m} דקות</div>
@@ -312,6 +337,7 @@
             const color = e.target.value;
             countdownEl.style.color = color;
             titleNames.style.color = color;
+            titleStarted.style.color = color;
             document.querySelectorAll(".time-card").forEach((card) => {
                 card.style.color = color;
             });

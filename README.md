@@ -59,6 +59,9 @@ JavaScript
 #### saveBgImage ו-loadBgImage: שמירה וטעינה של תמונת רקע מ-IndexedDB.
 #### window.onload: localStorage ו-IndexedDB - נטענים הנתונים בעת טעינת הדף מ.
 
+##
+##
+
 # Wedding Countdown
 
 ## Project Description  

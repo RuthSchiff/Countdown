@@ -54,7 +54,7 @@ CSS
 אפקטים דינמיים כמו צללים, אנימציות, ולבבות נופלים.
 JavaScript
 ### פונקציות עיקריות:
-## startCountdown: מתחילה את הספירה לאחור.
-## createHearts: יוצר אפקט לבבות נופלים.
-## saveBgImage ו-loadBgImage: שמירה וטעינה של תמונת רקע מ-IndexedDB.
-## window.onload: localStorage ו-IndexedDB - נטענים הנתונים בעת טעינת הדף מ.
+### startCountdown: מתחילה את הספירה לאחור.
+### createHearts: יוצר אפקט לבבות נופלים.
+### saveBgImage ו-loadBgImage: שמירה וטעינה של תמונת רקע מ-IndexedDB.
+### window.onload: localStorage ו-IndexedDB - נטענים הנתונים בעת טעינת הדף מ.

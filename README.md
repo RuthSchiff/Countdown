@@ -57,5 +57,5 @@ JavaScript
 startCountdown: מתחילה את הספירה לאחור.
 createHearts: יוצר אפקט לבבות נופלים.
 saveBgImage ו-loadBgImage: שמירה וטעינה של תמונת רקע מ-IndexedDB.
-window.onload: טוען נתונים מ-localStorage ו-IndexedDB בעת טעינת הדף.
+window.onload: localStorage ו-IndexedDB - נטענים הנתונים בעת טעינת הדף מ .
 

@@ -58,3 +58,78 @@ JavaScript
 #### createHearts: יוצר אפקט לבבות נופלים.
 #### saveBgImage ו-loadBgImage: שמירה וטעינה של תמונת רקע מ-IndexedDB.
 #### window.onload: localStorage ו-IndexedDB - נטענים הנתונים בעת טעינת הדף מ.
+
+# Wedding Countdown
+
+## Project Description  
+An interactive wedding countdown app that allows users to personalize their experience. The user can enter the names of the bride and groom, choose a wedding date, change text colors, upload a custom background image, and view a styled, responsive countdown timer.
+
+## Key Features
+
+### Dynamic Countdown:  
+- Displays the time remaining until the wedding date (days, hours, minutes, and seconds).  
+- Automatically updates the countdown every second.
+
+### Personalization:  
+- Option to input the names of the bride and groom.  
+- Custom text color selection.  
+- Upload a personalized background image.
+
+### Data Storage:  
+- Uses `localStorage` to save the names, wedding date, and text color.  
+- Uses `IndexedDB` to store the background image.
+
+### Responsive Design:  
+- Fully responsive for all screen types (desktops, tablets, and mobile devices).  
+- Built with Flexbox and Media Queries for responsive layout.
+
+### Animations and Effects:  
+- Falling heart animation on the wedding day.  
+- Shadow and glowing text effects.
+
+## Project Structure
+
+**HTML:**  
+Defines the webpage structure, including data input forms, an edit button, and the countdown display.
+
+**CSS:**  
+Responsive design with Flexbox, Media Queries, and dynamic effects.
+
+**JavaScript:**  
+Logic for countdown management, data saving with localStorage and IndexedDB, and user interaction handling.
+
+## System Requirements  
+- A modern browser that supports `localStorage` and `IndexedDB`.  
+- Internet connection (optional, but needed to load the default background image).
+
+## Installation Instructions  
+1. Download the project files.  
+2. Open the `index.html` file in your browser.
+
+## Usage  
+- Enter the names of the bride and groom.  
+- Choose a wedding date.  
+- Customize the text color or upload a background image.  
+- Click “Start Countdown” to begin.  
+- You can edit the settings anytime by clicking the “Edit” button.
+
+## Code Structure
+
+**HTML**  
+- `#panel`: Form for entering names, date, colors, and background image.  
+- `#countdown`: The countdown display section.  
+- `#titleNames`: Title displaying the names of the couple.  
+- `#titleStarted`: Title indicating the countdown has started.
+
+**CSS**  
+- Responsive styling with Flexbox and Media Queries.  
+- Dynamic effects like shadows, animations, and falling hearts.
+
+**JavaScript**
+
+### Main Functions:
+- `startCountdown`: Starts the countdown timer.  
+- `createHearts`: Creates the falling heart effect.  
+- `saveBgImage` and `loadBgImage`: Save and load background images using IndexedDB.  
+- `window.onload`: Loads saved data from localStorage and IndexedDB on page load.
+

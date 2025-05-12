@@ -21,7 +21,16 @@
             flex-direction: column;
             justify-content: space-between;
         }
-
+#audioPlayer {
+    position: fixed;
+    bottom: 10px; /* מרחק מהתחתית */
+    right: 10px; /* מרחק מהצד הימני */
+    z-index: 1000; /* כדי לוודא שהוא מעל כל האלמנטים */
+    /* background-color: rgba(255, 255, 255, 0.8); רקע שקוף */
+    border-radius: 8px; /* פינות מעוגלות */
+    padding: 5px; /* ריווח פנימי */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* צל */
+}
         #titleStarted {
             font-size: 2.5em;
             /* גודל הטקסט */
@@ -42,6 +51,7 @@
             font-size: 2.5em;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
         }
+
 
         .panel {
             background-color: rgba(202, 232, 236, 0.9);
@@ -191,6 +201,7 @@
 
     <div id="panel" class="panel">
         <h1>ספירה לאחור לחתונה 💍</h1>
+        
         <input type="text" id="groomName" placeholder="שם החתן"><br>
         <input type="text" id="brideName" placeholder="שם הכלה"><br>
         <input type="date" id="dateInput"><br>
@@ -203,12 +214,17 @@
         <button onclick="startCountdown()">התחל ספירה</button>
 
 
+
     </div>
 
 
     <div id="titleNames"></div>
     <h2 id="titleStarted">הספירה לאחור החלה!!!!!!!</h2>
     <div id="countdown"></div>
+<audio id="audioPlayer" controls>
+  <source src="מנגינת חופה.mp3" type="audio/mpeg">
+  הדפדפן שלך לא תומך בהשמעת אודיו.
+</audio>
 
 
     <script>
@@ -221,6 +237,7 @@
         const bgInput = document.getElementById("bgInput");
         let countdownInterval;
 
+        // Default background image
         const defaultBg = "חופה.jpg";
 
         let db;
@@ -234,13 +251,13 @@
             db = e.target.result;
             db.createObjectStore("bg", { keyPath: "id" });
         };
-
+    // Save the background image to IndexedDB
         function saveBgImage(dataUrl) {
             const tx = db.transaction("bg", "readwrite");
             const store = tx.objectStore("bg");
             store.put({ id: "background", image: dataUrl });
         }
-
+        // Load the background image from IndexedDB
         function loadBgImage() {
             const tx = db.transaction("bg", "readonly");
             const store = tx.objectStore("bg");
@@ -253,7 +270,14 @@
                 }
             };
         }
+// Load the saved wedding date, names, and color from localStorage when the page loads
+        // and set them to the input fields and countdown display
+        // and set the background image to the saved image from IndexedDB
 
+        document.body.addEventListener("click", () => {
+    const music = document.getElementById("backgroundMusic");
+    music.muted = false; // הסרת ההשתקה לאחר לחיצה
+});
         window.onload = () => {
             debugger
             const savedDate = localStorage.getItem("weddingDate");
@@ -283,7 +307,7 @@
                 titleNames.innerText = `${savedGroom} & ${savedBride}`;
             }
         };
-
+        // Save the wedding date and names to localStorage when the countdown starts , saving also the color to the text
         function startCountdown(passedDate) {
             const inputDate = passedDate || document.getElementById("dateInput").value;
             const Savedgroom = document.getElementById("groomName").value.trim();
@@ -297,6 +321,7 @@
 
             const targetDate = new Date(inputDate + "T00:00:00");
 
+          //  
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
                 const now = new Date();
@@ -317,7 +342,6 @@
 
 
                 countdownEl.innerHTML =
-                    //   <h1>הספירה לאחור החלה</h1>
                     ` 
             <div class="time-card">${d} ימים</div>
             <div class="time-card">${h} שעות</div>
@@ -332,7 +356,7 @@
         editBtn.addEventListener("click", () => {
             panel.style.display = "block";
         });
-
+// Save the text color to localStorage when changed
         textColorInput.addEventListener("change", (e) => {
             const color = e.target.value;
             countdownEl.style.color = color;
@@ -343,11 +367,10 @@
             });
             localStorage.setItem("textColor", color);
         });
-
+        //
         bgInput.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function (event) {
                 const dataUrl = event.target.result;
@@ -356,7 +379,7 @@
             };
             reader.readAsDataURL(file);
         });
-
+// Create hearts animation
         function createHearts() {
             for (let i = 0; i < 30; i++) {
                 const heart = document.createElement("div");

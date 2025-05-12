@@ -236,12 +236,11 @@
         const textColorInput = document.getElementById("textColor");
         const bgInput = document.getElementById("bgInput");
         let countdownInterval;
-<<<<<<< HEAD
 
         // Default background image
-=======
+
          // Default background image
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
+
         const defaultBg = "חופה.jpg";
 
         let db;
@@ -255,21 +254,21 @@
             db = e.target.result;
             db.createObjectStore("bg", { keyPath: "id" });
         };
-<<<<<<< HEAD
+
     // Save the background image to IndexedDB
-=======
+
         // Save the background image to IndexedDB
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
+
         function saveBgImage(dataUrl) {
             const tx = db.transaction("bg", "readwrite");
             const store = tx.objectStore("bg");
             store.put({ id: "background", image: dataUrl });
         }
-<<<<<<< HEAD
+
         // Load the background image from IndexedDB
-=======
+
         //Load the background image from IndexedDB
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
+
         function loadBgImage() {
             const tx = db.transaction("bg", "readonly");
             const store = tx.objectStore("bg");
@@ -282,7 +281,7 @@
                 }
             };
         }
-<<<<<<< HEAD
+
 // Load the saved wedding date, names, and color from localStorage when the page loads
         // and set them to the input fields and countdown display
         // and set the background image to the saved image from IndexedDB
@@ -291,12 +290,12 @@
     const music = document.getElementById("backgroundMusic");
     music.muted = false; // הסרת ההשתקה לאחר לחיצה
 });
-=======
+
         // Load the saved wedding date, names, and color from localStorage when the page loads
         // and set them to the input fields and countdown display
         // and set the background image to the saved image from IndexedDB
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
-        window.onload = () => {
+
+     window.onload = () => {
             debugger
             const savedDate = localStorage.getItem("weddingDate");
             const savedColor = localStorage.getItem("textColor");
@@ -376,11 +375,11 @@
         editBtn.addEventListener("click", () => {
             panel.style.display = "block";
         });
-<<<<<<< HEAD
+
 // Save the text color to localStorage when changed
-=======
+
         //saving the color to the text in the localStorage
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
+
         textColorInput.addEventListener("change", (e) => {
             const color = e.target.value;
             countdownEl.style.color = color;
@@ -391,11 +390,9 @@
             });
             localStorage.setItem("textColor", color);
         });
-<<<<<<< HEAD
+
         //
-=======
-        
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
+
         bgInput.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -407,11 +404,11 @@
             };
             reader.readAsDataURL(file);
         });
-<<<<<<< HEAD
+
 // Create hearts animation
-=======
+
         // Create hearts animation
->>>>>>> e2f5591fb756bf4be69069a7aba310f2adf74a65
+
         function createHearts() {
             for (let i = 0; i < 30; i++) {
                 const heart = document.createElement("div");
